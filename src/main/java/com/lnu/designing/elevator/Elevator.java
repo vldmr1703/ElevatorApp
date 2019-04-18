@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Elevator {
     protected int elevatorId;
-    protected int currentFloor;
+    protected Integer currentFloor;
     protected double maxWeight;
     protected ElevatorState elevatorState;
     protected List<Person> people;
@@ -35,7 +35,7 @@ public class Elevator {
         this.dispatcher = dispatcher;
     }
 
-    public int getElevatorId() {
+    public Integer getElevatorId() {
         return elevatorId;
     }
 

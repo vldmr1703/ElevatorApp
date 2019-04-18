@@ -1,5 +1,6 @@
 package com.lnu.designing.builder.componentBuilder;
 
+import com.lnu.designing.dispatcher.Dispatcher;
 import com.lnu.designing.elevator.Elevator;
 import com.lnu.designing.elevator.ElevatorState;
 import com.lnu.designing.elevator.moving.strategy.MovingStrategy;
@@ -11,12 +12,13 @@ public class ElevatorBuilder {
         elevator = new Elevator();
     }
 
-    public int getElevatorId() {
-        return elevator.getElevatorId();
-    }
-
     public ElevatorBuilder setElevatorId(int elevatorId) {
         elevator.setElevatorId(elevatorId);
+        return this;
+    }
+
+    public ElevatorBuilder setDispatcher(Dispatcher dispatcher){
+        elevator.setDispatcher(dispatcher);
         return this;
     }
 
@@ -47,6 +49,7 @@ public class ElevatorBuilder {
 
     public Elevator build(){
         Elevator builtElevator = new Elevator();
+        builtElevator.setElevatorId(elevator.getElevatorId());
         builtElevator.setMaxWeight(elevator.getMaxWeight());
         builtElevator.setCurrentFloor(elevator.getCurrentFloor());
         builtElevator.setElevatorState(elevator.getElevatorState());

@@ -16,12 +16,12 @@ public class MainPresenter implements Presenter {
 
     @Override
     public void stopMoving(int elevatorId) {
-
+        view.stop();
     }
 
     @Override
     public void returnFloor(int elevatorId, int floor) {
-
+        view.returnFloor(elevatorId, floor);
     }
 
     @Override

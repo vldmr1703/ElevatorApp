@@ -1,21 +1,23 @@
 package com.lnu.designing.facade;
 
 
+import com.lnu.designing.dispatcher.Dispatcher;
 import com.lnu.designing.elevator.moving.strategy.MovingStrategy;
 
 public class ElevatorDto {
-    private int ElevatorId;
+    private int elevatorId;
     private int maxWeight;
     private MovingStrategy elevatorStrategy;
+    private Dispatcher dispatcher;
 
     public ElevatorDto(int elevatorId, int maxWeight, MovingStrategy elevatorStrategy) {
-        ElevatorId = elevatorId;
+        this.elevatorId = elevatorId;
         this.maxWeight = maxWeight;
         this.elevatorStrategy = elevatorStrategy;
     }
 
     public int getElevatorId() {
-        return ElevatorId;
+        return elevatorId;
     }
 
     public int getMaxWeight() {
@@ -24,5 +26,13 @@ public class ElevatorDto {
 
     public MovingStrategy getMovingStrategy() {
         return elevatorStrategy;
+    }
+
+    public Dispatcher getDispatcher() {
+        return dispatcher;
+    }
+
+    public void setDispatcher(Dispatcher dispatcher) {
+        this.dispatcher = dispatcher;
     }
 }

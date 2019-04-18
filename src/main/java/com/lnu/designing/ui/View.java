@@ -1,8 +1,22 @@
 package com.lnu.designing.ui;
 
+import com.lnu.designing.builder.Building;
+import com.lnu.designing.builder.BuildingDirector;
+import com.lnu.designing.builder.outcomponents.IncomingStrategy;
+import com.lnu.designing.dispatcher.Dispatcher;
+import com.lnu.designing.elevator.Elevator;
+import com.lnu.designing.elevator.MovingDirection;
+import com.lnu.designing.elevator.moving.strategy.impl.WithStopElevatorStrategy;
+import com.lnu.designing.facade.ElevatorDto;
+import com.lnu.designing.facade.FloorDto;
+import com.lnu.designing.mediator.MainPresenter;
 import com.lnu.designing.mediator.Presenter;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class View extends JFrame {
 
@@ -25,60 +39,69 @@ public class View extends JFrame {
         panel.add(field);
         add(panel);
         setVisible(true);
-//        setSize(10, 10);
-//        setVisible(true);
-
-//        ElevatorView view = new ElevatorView(mediator);
-//        mediator.registerView(view);
-//        Elevator elevator = new Elevator(1, mediator);
-//        elevator.getOrders().add(1);
-//        elevator.getOrders().add(2);
-//        elevator.getOrders().add(3);
-//        elevator.getOrders().add(4);
-//        elevator.getOrders().add(5);
-//        elevator.getOrders().add(6);
-//        Elevator elevator2 = new Elevator(1, mediator);
-//        elevator2.getOrders().add(1);
-//        elevator2.getOrders().add(2);
-//        elevator2.getOrders().add(3);
-//        elevator2.getOrders().add(4);
-//        elevator2.getOrders().add(5);
-//        elevator2.getOrders().add(6);
-//        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-//        ExecutorService service = Executors.newCachedThreadPool();
-////        for(int i = 0; i < 10; i++) {
-//        service.submit(() -> {
-//            ScheduledExecutorService service1 = Executors.newSingleThreadScheduledExecutor();
-//            service1.scheduleAtFixedRate(() -> mediator.move(elevator, MovingDirection.DOWN), 0, 1, TimeUnit.SECONDS);
-////                view.move(elevator);
-//        });
-//        mediator.move(elevator, MovingDirection.DOWN);
-
-//        service.submit(() -> {
-////            view.move(elevator2);
-//            ScheduledExecutorService service1 = Executors.newSingleThreadScheduledExecutor();
-//            service1.scheduleAtFixedRate(() -> view.move(elevator2), 2, 2, TimeUnit.SECONDS);
-//        });
-
     }
 
-    public void returnFloor(int floor){
-//        System.out.println(floor);
+    public void returnFloor(int elevatorId, int floor){
         field.setText(String.valueOf(floor));
+        panel.repaint();
+        panel.elevators.get(elevatorId - 1).update();
     }
 
     public static void main(String[] args) {
-//        Presenter mediator = new MainPresenter();
-//        Panel panel = new Panel();
-//        View el = new View(mediator, panel);
-//        mediator.registerView(el);
-//        ElevatorWithStop elevator = new ElevatorWithStop(1, mediator);
-//        elevator.getOrders().add(1);
-//        elevator.getOrders().add(2);
-//        elevator.getOrders().add(3);
-//        elevator.getOrders().add(4);
-//        elevator.getOrders().add(5);
-//        elevator.getOrders().add(6);
+        List<FloorDto> floorDtoList = new ArrayList<>();
+        List<ElevatorDto> elevatorDtoList = new ArrayList<>();
+        int numberOfFoors = 0;
+        int numberOfElevators = 0;
+
+        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.RANDOM_STRATEGY));
+        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.RANDOM_STRATEGY));
+        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.ORDERING_STRATEGY));
+        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.RANDOM_STRATEGY));
+        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.RANDOM_STRATEGY));
+        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.ORDERING_STRATEGY));
+        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.ORDERING_STRATEGY));
+
+        elevatorDtoList.add(new ElevatorDto(++numberOfElevators, 500, new WithStopElevatorStrategy()));
+        elevatorDtoList.add(new ElevatorDto(++numberOfElevators, 500, new WithStopElevatorStrategy()));
+        elevatorDtoList.add(new ElevatorDto(++numberOfElevators, 500, new WithStopElevatorStrategy()));
+        elevatorDtoList.add(new ElevatorDto(++numberOfElevators, 500, new WithStopElevatorStrategy()));
+
+        BuildingDirector buildingDirector = new BuildingDirector();
+        Building building = buildingDirector.construct(floorDtoList, elevatorDtoList);
+
+        Presenter presenter = new MainPresenter();
+        Map<Integer, Integer> coords = new HashMap<>();
+        coords.put(2, 500);
+        coords.put(202, 500);
+        Panel panel = new Panel(coords);
+        View el = new View(presenter, panel);
+        presenter.registerView(el);
+        Dispatcher dispatcher = new Dispatcher(building, presenter);
+        for (Elevator dto: building.getElevatorList()){
+            dto.setDispatcher(dispatcher);
+//            dto.getOrders().add(1);
+//            dto.getOrders().add(2);
+//            dto.getOrders().add(3);
+//            dto.getOrders().add(4);
+//            dto.getOrders().add(5);
+//            dto.getOrders().add(6);
+        }
+        building.getElevatorList().get(0).getOrders().add(1);
+        building.getElevatorList().get(0).getOrders().add(2);
+        building.getElevatorList().get(0).getOrders().add(3);
+        building.getElevatorList().get(0).getOrders().add(4);
+        building.getElevatorList().get(0).getOrders().add(5);
+        building.getElevatorList().get(0).getOrders().add(6);
+        building.getElevatorList().get(1).getOrders().add(1);
+        building.getElevatorList().get(1).getOrders().add(2);
+        building.getElevatorList().get(1).getOrders().add(3);
+        dispatcher.startMoving(1, MovingDirection.UP);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        dispatcher.startMoving(2, MovingDirection.UP);
     }
 
     public void start(){

@@ -33,6 +33,7 @@ public class BuildingDirector {
         for (ElevatorDto elevatorDto : elevatorDtoList) {
             buildingBuilder.setElevator(
                     elevatorBuilder.setElevatorId(elevatorDto.getElevatorId())
+                            .setDispatcher(elevatorDto.getDispatcher())
                             .setMaxWeight(elevatorDto.getMaxWeight())
                             .setCurrentFloor(1)
                             .setElevatorState(ElevatorState.STOP)

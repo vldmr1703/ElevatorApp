@@ -1,6 +1,7 @@
 package com.lnu.designing.floor;
 
-import com.lnu.designing.builder.outcomponents.IncomingStrategy;
+import com.lnu.designing.builder.outcomponents.IncomingStrategyType;
+import com.lnu.designing.floor.incoming.strategy.IncomingStrategy;
 import com.lnu.designing.person.Person;
 
 import java.util.ArrayList;

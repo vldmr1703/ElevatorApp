@@ -93,7 +93,7 @@ public class Elevator {
 
     public void move(MovingDirection direction){
         movingStrategy.move(this, dispatcher, direction);
-    };
+    };//
 
 //    public abstract void addOrder(int floorId);
 }

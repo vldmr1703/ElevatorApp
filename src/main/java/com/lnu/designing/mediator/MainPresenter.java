@@ -1,6 +1,7 @@
 package com.lnu.designing.mediator;
 
 import com.lnu.designing.elevator.MovingDirection;
+import com.lnu.designing.person.Person;
 import com.lnu.designing.ui.View;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class MainPresenter implements Presenter {
     }
 
     @Override
-    public void addPeopleToFloor(List<Integer> peopleIds, int floorId) {
+    public void addPeopleToFloor(Person person, int floorId) {
 
     }
 

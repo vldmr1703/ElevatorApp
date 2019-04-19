@@ -17,7 +17,7 @@ public class Main {
         Building building = buildingDirector.construct(7, 4);
 
         Dispatcher dispatcher = new Dispatcher(building, null);
-        PersonGenerator personGenerator = new PersonGenerator(building, dispatcher);
+        PersonGenerator personGenerator = new PersonGenerator(dispatcher, 7);
 
 
 //            building.getElevatorList().stream().forEach(

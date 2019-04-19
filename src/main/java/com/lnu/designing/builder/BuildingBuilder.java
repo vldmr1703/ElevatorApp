@@ -1,30 +1,14 @@
 package com.lnu.designing.builder;
 
-import com.lnu.designing.floor.Floor;
 import com.lnu.designing.elevator.Elevator;
+import com.lnu.designing.floor.Floor;
 
-public class BuildingBuilder implements Builder {
-    private Building building;
+public interface BuildingBuilder {
+    BuildingBuilder createNewBuilding();
 
-    public BuildingBuilder() {
-        building = new Building();
-    }
+    BuildingBuilder setFloor(Floor floor);
 
-    public BuildingBuilder setFloor(Floor floor) {
-        building.setFloor(floor);
-        return this;
-    }
+    BuildingBuilder setElevator(Elevator elevator);
 
-    public BuildingBuilder setElevator(Elevator elevator) {
-        building.setElevator(elevator);
-        return this;
-    }
-
-    @Override
-    public Building build() {
-        Building builtBuilding = new Building();
-        builtBuilding.setFloorList(building.getFloorList());
-        builtBuilding.setElevatorList(building.getElevatorList());
-        return builtBuilding;
-    }
+    Building build();
 }

@@ -1,6 +1,7 @@
 package com.lnu.designing.floor;
 
-import com.lnu.designing.builder.outcomponents.IncomingStrategy;
+import com.lnu.designing.elevator.Elevator;
+import com.lnu.designing.floor.incoming.strategy.IncomingStrategy;
 import com.lnu.designing.person.Person;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 
 
 public class Floor {
-    private int number;
+    private int floorId;
     private List<Person> personList;
     private IncomingStrategy incomingStrategy;
 
@@ -16,12 +17,12 @@ public class Floor {
         personList = new ArrayList<>();
     }
 
-    public int getNumber() {
-        return number;
+    public int getFloorId() {
+        return floorId;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setFloorId(int floorId) {
+        this.floorId = floorId;
     }
 
     public IncomingStrategy getIncomingStrategy() {
@@ -38,5 +39,10 @@ public class Floor {
 
     public void setPerson(Person person) {
         personList.add(person);
+    }
+
+    public void reorderQueue(Elevator elevator){
+        incomingStrategy.reorderQueue(personList, elevator);//direction  floor to go lift
+//        personList
     }
 }

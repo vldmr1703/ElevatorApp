@@ -1,7 +1,7 @@
 package com.lnu.designing.mediator;
 
 import com.lnu.designing.elevator.MovingDirection;
-import com.lnu.designing.ui.View;
+//import com.lnu.designing.ui.View;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ public interface Presenter {
     void addPeopleToElevatorOnFloor(List<Integer> peopleIds, int floorId);
     void addFloorToQueue(int elevatorId, int floorId);
     void addPeopleToFloor(List<Integer> peopleIds, int floorId);
-    void registerView(View elevators);
+//    void registerView(View elevators);
 }

@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Elevator {
+    public static final int START_FLOOR = 1;
+
+    // set of colls max min
+    //current floor++ run
+//    cols for elevator
+
     protected int elevatorId;
     protected int currentFloor;
     protected double maxWeight;
@@ -20,7 +26,7 @@ public class Elevator {
     public Elevator() {
         elevatorState = ElevatorState.STOP;
         orders = new ArrayList<>();
-        currentFloor = 0;
+        currentFloor = START_FLOOR;
     }
 
     public void setElevatorId(int elevatorId) {

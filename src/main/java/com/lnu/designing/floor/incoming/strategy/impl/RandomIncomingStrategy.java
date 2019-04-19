@@ -10,7 +10,7 @@ public class RandomIncomingStrategy implements IncomingStrategy {
     @Override
     public void reorderQueue(List<Person> personList, Elevator elevator) {//on elevator arrive
 //        elevator.
-//        personList.stream().findFirst().get().getFloorNumberToGo()
+//        personList.stream().findFirst().get().getFloorIdToGo()
 
     }
 }

@@ -9,6 +9,8 @@ import com.lnu.designing.builder.outcomponents.IncomingStrategyType;
 import com.lnu.designing.builder.outcomponents.MovingStrategyType;
 import com.lnu.designing.elevator.ElevatorState;
 import com.lnu.designing.elevator.moving.strategy.MovingStrategy;
+import com.lnu.designing.elevator.moving.strategy.impl.WithStopElevatorStrategy;
+import com.lnu.designing.elevator.moving.strategy.impl.WithoutStopElevatorStrategy;
 import com.lnu.designing.floor.incoming.strategy.IncomingStrategy;
 import com.lnu.designing.floor.incoming.strategy.impl.OrderingIncomingStrategy;
 import com.lnu.designing.floor.incoming.strategy.impl.RandomIncomingStrategy;
@@ -18,9 +20,9 @@ import java.util.EnumMap;
 public class BuildingDirector {
     public static final int MAX_WEIGHT = 500;
 
-    private BuildingBuilder buildingBuilder = new BuildingBuilderImpl();
-    private ElevatorBuilder elevatorBuilder = new ElevatorBuilderImpl();
-    private FloorBuilder floorBuilder = new FloorBuilderImpl();
+    private BuildingBuilder buildingBuilder;
+    private ElevatorBuilder elevatorBuilder;
+    private FloorBuilder floorBuilder;
 
     private static EnumMap<IncomingStrategyType, IncomingStrategy> incomingStrategyEnumMap = new EnumMap<>(IncomingStrategyType.class);
     private static EnumMap<MovingStrategyType, MovingStrategy> movingStrategyEnumMap = new EnumMap<>(MovingStrategyType.class);
@@ -28,8 +30,16 @@ public class BuildingDirector {
     static {
         incomingStrategyEnumMap.put(IncomingStrategyType.ORDERING_STRATEGY, new OrderingIncomingStrategy());
         incomingStrategyEnumMap.put(IncomingStrategyType.RANDOM_STRATEGY, new RandomIncomingStrategy());
+
+        movingStrategyEnumMap.put(MovingStrategyType.WITH_STOP_STRATEGY, new WithStopElevatorStrategy());
+        movingStrategyEnumMap.put(MovingStrategyType.WITHOUT_STOP_STRATEGY, new WithoutStopElevatorStrategy());
     }
 
+    public BuildingDirector() {
+        buildingBuilder = new BuildingBuilderImpl();
+        elevatorBuilder = new ElevatorBuilderImpl();
+        floorBuilder = new FloorBuilderImpl();
+    }
 
     public Building construct(int numberOfFloors, int numberOfElevators) {
         buildingBuilder.createNewBuilding();
@@ -42,7 +52,7 @@ public class BuildingDirector {
         for (int floorIndex = 1; floorIndex <= numberOfFloors; floorIndex++) {
             buildingBuilder.setFloor(
                     floorBuilder.createNewFloor()
-                            .setNumber(floorIndex)
+                            .setFloorId(floorIndex)
                             .setIncomingStrategy(incomingStrategyEnumMap.get(IncomingStrategyType.getRandomIncomingStrategy()))
                             .build());
         }
@@ -54,7 +64,6 @@ public class BuildingDirector {
                     elevatorBuilder.createNewElevator()
                             .setElevatorId(elevatorIndex)
                             .setMaxWeight(MAX_WEIGHT)
-                            .setCurrentFloor(1)
                             .setElevatorState(ElevatorState.STOP)
                             .setMovingStrategy(movingStrategyEnumMap.get(MovingStrategyType.getRandomMovingStrategyType()))
                             .build());

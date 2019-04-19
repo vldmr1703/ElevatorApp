@@ -7,13 +7,9 @@ import com.lnu.designing.elevator.moving.strategy.MovingStrategy;
 public interface ElevatorBuilder {
     ElevatorBuilder createNewElevator();
 
-    int getElevatorId();
-
     ElevatorBuilder setElevatorId(int elevatorId);
 
     ElevatorBuilder setMaxWeight(int maxWeight);
-
-    ElevatorBuilder setCurrentFloor(int currentFloor);
 
     ElevatorBuilder setElevatorState(ElevatorState elevatorState);
 

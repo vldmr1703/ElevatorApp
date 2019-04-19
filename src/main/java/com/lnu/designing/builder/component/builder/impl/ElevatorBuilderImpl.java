@@ -15,11 +15,6 @@ public class ElevatorBuilderImpl implements ElevatorBuilder {
     }
 
     @Override
-    public int getElevatorId() {
-        return elevator.getElevatorId();
-    }
-
-    @Override
     public ElevatorBuilder setElevatorId(int elevatorId) {
         elevator.setElevatorId(elevatorId);
         return this;
@@ -28,12 +23,6 @@ public class ElevatorBuilderImpl implements ElevatorBuilder {
     @Override
     public ElevatorBuilder setMaxWeight(int maxWeight) {
         elevator.setMaxWeight(maxWeight);
-        return this;
-    }
-
-    @Override
-    public ElevatorBuilder setCurrentFloor(int currentFloor) {
-        elevator.setCurrentFloor(currentFloor);
         return this;
     }
 
@@ -49,10 +38,6 @@ public class ElevatorBuilderImpl implements ElevatorBuilder {
         return this;
     }
 
-    //    public ElevatorBuilder setPerson(Person person){
-//        elevator.setPerson(person);
-//        return this;
-//    }
     @Override
     public Elevator build() {
         return elevator;

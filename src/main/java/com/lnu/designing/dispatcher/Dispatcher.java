@@ -1,5 +1,6 @@
 package com.lnu.designing.dispatcher;
 
+import com.lnu.designing.elevator.ElevatorState;
 import com.lnu.designing.elevator.MovingDirection;
 import com.lnu.designing.builder.Building;
 import com.lnu.designing.elevator.Elevator;
@@ -25,8 +26,12 @@ public class Dispatcher {
     public void startMoving(int elevatorId, MovingDirection direction) {
         Elevator elevator = building.getElevatorList().stream()
                 .filter(el -> el.getElevatorId() == elevatorId).findAny().orElse(null);
-        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(() -> elevator.move(direction), 0, 1, TimeUnit.SECONDS);
+        ElevatorState state = direction.equals(MovingDirection.UP) ? ElevatorState.MOVE_UP : ElevatorState.MOVE_DOWN;
+        if (elevator != null) {
+            elevator.setElevatorState(state);
+            ScheduledExecutorService scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+            scheduledExecutor.scheduleAtFixedRate(() -> elevator.move(direction), 0, 2, TimeUnit.SECONDS);
+        }
     }
 
     public void startMovingView(int elevatorId, MovingDirection direction) {
@@ -38,11 +43,10 @@ public class Dispatcher {
     }
 
     public void stopMoving(int elevatorId) {
-
     }
 
     public void returnFloor(int elevatorId, int floor) {
-
+        presenter.returnFloor(elevatorId, floor);
     }
 
     public void openDoor(int elevatorId) {

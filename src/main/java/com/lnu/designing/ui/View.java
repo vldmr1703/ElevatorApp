@@ -1,6 +1,15 @@
 package com.lnu.designing.ui;
 
+import com.lnu.designing.builder.Building;
+import com.lnu.designing.builder.BuildingDirector;
+import com.lnu.designing.dispatcher.Dispatcher;
+import com.lnu.designing.elevator.Elevator;
+import com.lnu.designing.elevator.MovingDirection;
+import com.lnu.designing.mediator.MainPresenter;
 import com.lnu.designing.mediator.Presenter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.*;
 
@@ -21,71 +30,64 @@ public class View extends JFrame {
         this.panel = panel;
 //        panel.start();
         field = new JTextField(5);
-        field.setBounds(0,0, 50,50);
+        field.setBounds(0, 0, 50, 50);
         panel.add(field);
         add(panel);
         setVisible(true);
-//        setSize(10, 10);
-//        setVisible(true);
-
-//        ElevatorView view = new ElevatorView(mediator);
-//        mediator.registerView(view);
-//        Elevator elevator = new Elevator(1, mediator);
-//        elevator.getOrders().add(1);
-//        elevator.getOrders().add(2);
-//        elevator.getOrders().add(3);
-//        elevator.getOrders().add(4);
-//        elevator.getOrders().add(5);
-//        elevator.getOrders().add(6);
-//        Elevator elevator2 = new Elevator(1, mediator);
-//        elevator2.getOrders().add(1);
-//        elevator2.getOrders().add(2);
-//        elevator2.getOrders().add(3);
-//        elevator2.getOrders().add(4);
-//        elevator2.getOrders().add(5);
-//        elevator2.getOrders().add(6);
-//        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-//        ExecutorService service = Executors.newCachedThreadPool();
-////        for(int i = 0; i < 10; i++) {
-//        service.submit(() -> {
-//            ScheduledExecutorService service1 = Executors.newSingleThreadScheduledExecutor();
-//            service1.scheduleAtFixedRate(() -> mediator.move(elevator, MovingDirection.DOWN), 0, 1, TimeUnit.SECONDS);
-////                view.move(elevator);
-//        });
-//        mediator.move(elevator, MovingDirection.DOWN);
-
-//        service.submit(() -> {
-////            view.move(elevator2);
-//            ScheduledExecutorService service1 = Executors.newSingleThreadScheduledExecutor();
-//            service1.scheduleAtFixedRate(() -> view.move(elevator2), 2, 2, TimeUnit.SECONDS);
-//        });
-
     }
 
-    public void returnFloor(int floor){
-//        System.out.println(floor);
+    public void returnFloor(int elevatorId, int floor) {
         field.setText(String.valueOf(floor));
+        panel.repaint();
+        panel.elevators.get(elevatorId - 1).update();
     }
 
     public static void main(String[] args) {
-//        Presenter mediator = new MainPresenter();
-//        Panel panel = new Panel();
-//        View el = new View(mediator, panel);
-//        mediator.registerView(el);
-//        ElevatorWithStop elevator = new ElevatorWithStop(1, mediator);
-//        elevator.getOrders().add(1);
-//        elevator.getOrders().add(2);
-//        elevator.getOrders().add(3);
-//        elevator.getOrders().add(4);
-//        elevator.getOrders().add(5);
-//        elevator.getOrders().add(6);
+//        Dispatcher dispatcher = new Dispatcher(null, null);
+        BuildingDirector buildingDirector = new BuildingDirector(null);
+        Building building = buildingDirector.construct(7, 4);
+
+
+        Presenter presenter = new MainPresenter();
+        Map<Integer, Integer> coords = new HashMap<>();
+        coords.put(2, 500);
+        coords.put(202, 500);
+        Panel panel = new Panel(coords);
+        View el = new View(presenter, panel);
+        presenter.registerView(el);
+        Dispatcher dispatcher = new Dispatcher(building, presenter);
+        for (Elevator dto : building.getElevatorList()) {
+            dto.setDispatcher(dispatcher);
+//            dto.getOrders().add(1);
+//            dto.getOrders().add(2);
+//            dto.getOrders().add(3);
+//            dto.getOrders().add(4);
+//            dto.getOrders().add(5);
+//            dto.getOrders().add(6);
+        }
+        building.getElevatorList().get(0).getOrders().add(1);
+        building.getElevatorList().get(0).getOrders().add(2);
+        building.getElevatorList().get(0).getOrders().add(3);
+        building.getElevatorList().get(0).getOrders().add(4);
+        building.getElevatorList().get(0).getOrders().add(5);
+        building.getElevatorList().get(0).getOrders().add(6);
+        building.getElevatorList().get(1).getOrders().add(1);
+        building.getElevatorList().get(1).getOrders().add(2);
+        building.getElevatorList().get(1).getOrders().add(3);
+        dispatcher.startMoving(1, MovingDirection.UP);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        dispatcher.startMoving(2, MovingDirection.UP);
     }
 
-    public void start(){
+    public void start() {
         panel.start();
     }
 
-    public void stop(){
+    public void stop() {
         panel.stop();
     }
 }

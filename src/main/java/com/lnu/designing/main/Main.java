@@ -13,7 +13,7 @@ public class Main {
     private static final int TIMEOUT_DELAY = 15;
 
     public static void main(String[] args) {
-        BuildingDirector buildingDirector = new BuildingDirector();
+        BuildingDirector buildingDirector = new BuildingDirector(null);
         Building building = buildingDirector.construct(7, 4);
 
         Dispatcher dispatcher = new Dispatcher(building, null);

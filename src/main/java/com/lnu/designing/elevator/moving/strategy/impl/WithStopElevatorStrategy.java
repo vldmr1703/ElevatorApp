@@ -22,7 +22,7 @@ public class WithStopElevatorStrategy implements MovingStrategy {
         Integer currentFloor = elevator.getCurrentFloor();
         for (int i = currentFloor; i <= finalFloor; i++, currentFloor++) {
             dispatcher.returnFloor(elevatorId, currentFloor);
-            stopMovingIfIsOrder(currentFloor, elevator, dispatcher, direction);
+//            stopMovingIfIsOrder(currentFloor, elevator, dispatcher, direction);
 //            elevator.getOrders().remove(currentFloor);
             System.out.println(elevatorId + " " + currentFloor);
             try {
@@ -42,7 +42,7 @@ public class WithStopElevatorStrategy implements MovingStrategy {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            dispatcher.startMovingView(elevator.getElevatorId(), direction);
+//            dispatcher.startMovingView(elevator.getElevatorId(), direction);
         }
     }
 

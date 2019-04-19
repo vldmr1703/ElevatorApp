@@ -2,21 +2,16 @@ package com.lnu.designing.ui;
 
 import com.lnu.designing.builder.Building;
 import com.lnu.designing.builder.BuildingDirector;
-import com.lnu.designing.builder.outcomponents.IncomingStrategy;
 import com.lnu.designing.dispatcher.Dispatcher;
 import com.lnu.designing.elevator.Elevator;
 import com.lnu.designing.elevator.MovingDirection;
-import com.lnu.designing.elevator.moving.strategy.impl.WithStopElevatorStrategy;
-import com.lnu.designing.facade.ElevatorDto;
-import com.lnu.designing.facade.FloorDto;
 import com.lnu.designing.mediator.MainPresenter;
 import com.lnu.designing.mediator.Presenter;
 
-import javax.swing.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import javax.swing.*;
 
 public class View extends JFrame {
 
@@ -35,39 +30,23 @@ public class View extends JFrame {
         this.panel = panel;
 //        panel.start();
         field = new JTextField(5);
-        field.setBounds(0,0, 50,50);
+        field.setBounds(0, 0, 50, 50);
         panel.add(field);
         add(panel);
         setVisible(true);
     }
 
-    public void returnFloor(int elevatorId, int floor){
+    public void returnFloor(int elevatorId, int floor) {
         field.setText(String.valueOf(floor));
         panel.repaint();
         panel.elevators.get(elevatorId - 1).update();
     }
 
     public static void main(String[] args) {
-        List<FloorDto> floorDtoList = new ArrayList<>();
-        List<ElevatorDto> elevatorDtoList = new ArrayList<>();
-        int numberOfFoors = 0;
-        int numberOfElevators = 0;
+//        Dispatcher dispatcher = new Dispatcher(null, null);
+        BuildingDirector buildingDirector = new BuildingDirector(null);
+        Building building = buildingDirector.construct(7, 4);
 
-        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.RANDOM_STRATEGY));
-        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.RANDOM_STRATEGY));
-        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.ORDERING_STRATEGY));
-        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.RANDOM_STRATEGY));
-        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.RANDOM_STRATEGY));
-        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.ORDERING_STRATEGY));
-        floorDtoList.add(new FloorDto(++numberOfFoors, IncomingStrategy.ORDERING_STRATEGY));
-
-        elevatorDtoList.add(new ElevatorDto(++numberOfElevators, 500, new WithStopElevatorStrategy()));
-        elevatorDtoList.add(new ElevatorDto(++numberOfElevators, 500, new WithStopElevatorStrategy()));
-        elevatorDtoList.add(new ElevatorDto(++numberOfElevators, 500, new WithStopElevatorStrategy()));
-        elevatorDtoList.add(new ElevatorDto(++numberOfElevators, 500, new WithStopElevatorStrategy()));
-
-        BuildingDirector buildingDirector = new BuildingDirector();
-        Building building = buildingDirector.construct(floorDtoList, elevatorDtoList);
 
         Presenter presenter = new MainPresenter();
         Map<Integer, Integer> coords = new HashMap<>();
@@ -77,7 +56,7 @@ public class View extends JFrame {
         View el = new View(presenter, panel);
         presenter.registerView(el);
         Dispatcher dispatcher = new Dispatcher(building, presenter);
-        for (Elevator dto: building.getElevatorList()){
+        for (Elevator dto : building.getElevatorList()) {
             dto.setDispatcher(dispatcher);
 //            dto.getOrders().add(1);
 //            dto.getOrders().add(2);
@@ -104,11 +83,11 @@ public class View extends JFrame {
         dispatcher.startMoving(2, MovingDirection.UP);
     }
 
-    public void start(){
+    public void start() {
         panel.start();
     }
 
-    public void stop(){
+    public void stop() {
         panel.stop();
     }
 }

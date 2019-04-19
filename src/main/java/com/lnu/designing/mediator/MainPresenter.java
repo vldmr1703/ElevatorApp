@@ -1,13 +1,13 @@
 package com.lnu.designing.mediator;
 
 import com.lnu.designing.elevator.MovingDirection;
-//import com.lnu.designing.ui.View;
+import com.lnu.designing.ui.View;
 
 import java.util.List;
 
 public class MainPresenter implements Presenter {
 
-//    private View view;
+    private View view;
 
     @Override
     public void startMoving(int elevatorId, MovingDirection direction) {
@@ -54,8 +54,8 @@ public class MainPresenter implements Presenter {
 
     }
 
-//    public void registerView(View elevators) {
-//        this.view = elevators;
-//    }
+    public void registerView(View elevators) {
+        this.view = elevators;
+    }
 
 }

@@ -1,23 +1,24 @@
 package com.lnu.designing.person;
 
 public class Person  {
-    private int floorNumber;
-    private int floorNumberToGo;
+    private int floorId;
+    private int floorIdToGo;
     private double weight;
 
-    public Person(int floorNumber, int floorNumberToGo, double weight) {
-        this.floorNumber = floorNumber;
-        this.floorNumberToGo = floorNumberToGo;
+
+    public Person(int floorNumber, int floorIdToGo, double weight) {
+        this.floorId = floorNumber;
+        this.floorIdToGo = floorIdToGo;
         this.weight = weight;
 
     }
 
-    public int getFloorNumber() {
-        return floorNumber;
+    public int getFloorId() {
+        return floorId;
     }
 
-    public int getFloorNumberToGo() {
-        return floorNumberToGo;
+    public int getFloorIdToGo() {
+        return floorIdToGo;
     }
 
     public double getWeight() {
